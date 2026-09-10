@@ -1,0 +1,3 @@
+cd /d E:\BibCatalog
+python update_catalog_from_xlsx.py Каталог.xlsx catalog_template.html index.html
+netlify deploy --prod --dir=E:\BibCatalog

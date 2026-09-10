@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<title>Каталог библиотеки ВОСД</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  :root {
+    /* Светлая тема — кремовый фон, золото */
+    --bg: #fdf6e3;
+    --card-bg: #ffffff;
+    --text: #2a2114;
+    --text-muted: #7a6a4a;
+    --header-bg: linear-gradient(180deg, #2b2113 0%, #1c150a 100%);
+    --header-text: #f3e3b8;
+    --accent: #b8923d;
+    --accent-text: #fff8e1;
+    --border: #e0cfa0;
+    --tag-bg: #f3e6c4;
+    --tag-text: #6b5320;
+    --shadow: 0 2px 8px rgba(120,90,20,0.10);
+    --shadow-lg: 0 12px 40px rgba(90,60,10,0.35);
+    --footer-bg: #f1e4c3;
+    --overlay: rgba(40,25,5,0.55);
+    --scrollbar: #d6c191;
+    --gold-1: #e8d5a0;
+    --gold-2: #c9a24a;
+    --gold-3: #8a6a1e;
+  }
+  [data-theme="dark"] {
+    --bg: #1a1308;
+    --card-bg: #241c10;
+    --text: #f0e3c2;
+    --text-muted: #b9a678;
+    --header-bg: linear-gradient(180deg, #0e0a05 0%, #1a1308 100%);
+    --header-text: #f3e3b8;
+    --accent: #d4af5a;
+    --accent-text: #1a1308;
+    --border: #4a3a1a;
+    --tag-bg: #3a2e14;
+    --tag-text: #f0dca0;
+    --shadow: 0 2px 8px rgba(0,0,0,0.5);
+    --shadow-lg: 0 12px 40px rgba(0,0,0,0.7);
+    --footer-bg: #120d06;
+    --overlay: rgba(0,0,0,0.75);
+    --scrollbar: #4a3a1a;
+    --gold-1: #8a6a1e;
+    --gold-2: #c9a24a;
+    --gold-3: #e8d5a0;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { min-height: 100%; }
+
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", "Noto Serif", Georgia, serif;
+    background: var(--bg);
+    color: var(--text);
+    transition: background .25s ease, color .25s ease;
+    min-height: 100vh;
+  }
+
+  a { color: inherit; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-thumb { background: var(--scrollbar); border-radius: 6px; }
+
+  /* ===== HEADER ===== */
+  .site-header {
+    padding: 1rem 2rem;
+    background: var(--header-bg);
+    color: var(--header-text);
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    border-bottom: 2px solid var(--gold-2);
+    box-shadow: 0 4px 14px rgba(90,60,10,0.25);
+  }
+  .header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .header-top h1 {
+    margin: 0;
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+    gap: .9rem;
+    letter-spacing: .01em;
+    font-family: "Noto Serif", Georgia, serif;
+    font-weight: 600;
+    color: var(--header-text);
+    text-shadow: 0 1px 0 rgba(0,0,0,0.4);
+  }
+
+  /* ===== ГЕРБ (emblem.png) ===== */
+  .emblem {
+    height: 64px;
+    width: auto;
+    flex-shrink: 0;
+    display: block;
+    filter: drop-shadow(0 2px 6px rgba(0,0,0,0.45));
+  }
+  @media (max-width: 720px) {
+    .emblem { height: 44px; }
+    .header-top h1 { font-size: 1.1rem; gap: .5rem; }
+  }
+  @media (max-width: 480px) {
+    .emblem { height: 36px; }
+  }
+
+  .header-top h1 .book-count {
+    font-size: .75rem;
+    font-weight: 500;
+    background: rgba(232,213,160,0.16);
+    padding: .15rem .55rem;
+    border-radius: 999px;
+    color: var(--gold-1);
+    border: 1px solid rgba(232,213,160,0.4);
+    font-family: system-ui, sans-serif;
+  }
+  .header-actions { display: flex; align-items: center; gap: .5rem; }
+  .icon-btn {
+    background: rgba(232,213,160,0.12);
+    border: 1px solid rgba(232,213,160,0.35);
+    color: var(--header-text);
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    transition: background .15s ease, border-color .15s ease;
+  }
+  .icon-btn:hover { background: rgba(232,213,160,0.28); border-color: var(--gold-1); }
+  .menu-toggle { display: none; }
+
+  .search-bar { margin-top: .85rem; }
+  .search-bar input {
+    width: 100%;
+    max-width: 560px;
+    padding: .55rem .8rem;
+    border-radius: 6px;
+    border: 1px solid var(--gold-2);
+    font-size: .95rem;
+    background: #fdf6e3;
+    color: #2a2114;
+  }
+  .search-bar input:focus { outline: 2px solid var(--gold-1); }
+
+  .filters {
+    margin-top: .75rem;
+    display: flex;
+    gap: .5rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .filters select {
+    padding: .4rem .6rem;
+    border-radius: 6px;
+    border: 1px solid rgba(232,213,160,0.4);
+    font-size: .85rem;
+    background: rgba(0,0,0,0.25);
+    color: var(--header-text);
+  }
+  .filters select option { color: #2a2114; background: #fdf6e3; }
+  .filters .clear-btn,
+  .filters .sort-btn {
+    padding: .4rem .7rem;
+    border-radius: 6px;
+    border: 1px solid rgba(232,213,160,0.4);
+    background: transparent;
+    color: var(--header-text);
+    font-size: .85rem;
+    cursor: pointer;
+    transition: background .15s ease, border-color .15s ease;
+  }
+  .filters .clear-btn:hover,
+  .filters .sort-btn:hover { background: rgba(232,213,160,0.18); border-color: var(--gold-1); }
+  .filters .sort-btn.active {
+    background: var(--gold-2);
+    border-color: var(--gold-1);
+    color: #1c150a;
+    font-weight: 600;
+  }
+  .live-clock {
+    font-variant-numeric: tabular-nums;
+    font-size: .95rem;
+    font-weight: 500;
+    color: var(--gold-1);
+    padding: 0 .3rem;
+    min-width: 4.5em;
+    text-align: center;
+  }
+  .result-count {
+    margin-top: .5rem;
+    font-size: .8rem;
+    color: var(--gold-1);
+    opacity: .9;
+  }
+
+  /* ===== LAYOUT ===== */
+  main {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 1rem;
+    padding: 1rem 2rem 2rem;
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+  @media (max-width: 900px) {
+    main { grid-template-columns: 1fr; padding: 1rem; }
+    .menu-toggle { display: flex; }
+    .sidebar {
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      width: 78%;
+      max-width: 320px;
+      z-index: 40;
+      border-radius: 0;
+      transform: translateX(-105%);
+      transition: transform .25s ease;
+      overflow-y: auto;
+    }
+    .sidebar.open { transform: translateX(0); box-shadow: var(--shadow-lg); }
+    .sidebar-backdrop {
+      display: none;
+      position: fixed; inset: 0;
+      background: var(--overlay);
+      z-index: 30;
+    }
+    .sidebar-backdrop.open { display: block; }
+    .sidebar-close { display: block !important; }
+  }
+
+  .sidebar {
+    background: var(--card-bg);
+    border: 1px solid var(--gold-1);
+    border-radius: 10px;
+    padding: 1rem;
+    box-shadow: var(--shadow);
+    align-self: start;
+    max-height: calc(100vh - 1rem);
+    overflow-y: auto;
+  }
+  .sidebar-close {
+    display: none;
+    float: right;
+    background: none;
+    border: none;
+    font-size: 1.3rem;
+    color: var(--text-muted);
+    cursor: pointer;
+  }
+  .sidebar h2 {
+    margin: 0 0 .4rem;
+    font-size: .95rem;
+    color: var(--gold-3);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    border-bottom: 1px solid var(--gold-1);
+    padding-bottom: .25rem;
+  }
+  .sidebar ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0 0 1.2rem;
+    max-height: 260px;
+    overflow-y: auto;
+  }
+  .sidebar li {
+    font-size: .88rem;
+    margin-bottom: .3rem;
+    cursor: pointer;
+    color: var(--text);
+    display: flex;
+    justify-content: space-between;
+    gap: .4rem;
+    padding: .15rem .3rem;
+    border-radius: 5px;
+  }
+  .sidebar li:hover { background: var(--tag-bg); }
+  .sidebar li.active { background: var(--accent); color: var(--accent-text); }
+  .sidebar li .count { opacity: .6; font-size: .78rem; }
+  .sidebar li.active .count { opacity: .85; }
+
+  /* ===== CATALOG GRID ===== */
+  .catalog-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: .5rem;
+    margin-bottom: .75rem;
+  }
+  .catalog-toolbar .sort-group {
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+    font-size: .85rem;
+    color: var(--text-muted);
+  }
+  .catalog-toolbar select {
+    padding: .35rem .5rem;
+    border-radius: 6px;
+    border: 1px solid var(--gold-1);
+    background: var(--card-bg);
+    color: var(--text);
+    font-size: .85rem;
+  }
+  .view-toggle-group { display: flex; gap: .3rem; }
+  .view-toggle-group button {
+    border: 1px solid var(--gold-1);
+    background: var(--card-bg);
+    color: var(--text-muted);
+    border-radius: 6px;
+    width: 34px;
+    height: 30px;
+    cursor: pointer;
+  }
+  .view-toggle-group button.active { background: var(--accent); color: var(--accent-text); border-color: var(--accent); }
+
+  .catalog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 1rem;
+  }
+  .catalog-grid.list-view {
+    grid-template-columns: 1fr;
+  }
+  .catalog-grid.list-view .book-card {
+    flex-direction: row;
+    align-items: center;
+  }
+  .catalog-grid.list-view .book-cover { width: 54px; height: 76px; flex-shrink: 0; }
+  .catalog-grid.list-view .book-info { flex: 1; min-width: 0; }
+  .catalog-grid.list-view .book-tags { display: none; }
+
+  .book-card {
+    background: var(--card-bg);
+    border: 1px solid var(--gold-1);
+    border-radius: 10px;
+    padding: .9rem;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    cursor: pointer;
+    transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+  }
+  .book-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--gold-2);
+  }
+  .book-cover {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    aspect-ratio: 2/3;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 2rem;
+    color: #fff;
+    user-select: none;
+    box-shadow: inset 0 0 0 1px rgba(232,213,160,0.5);
+  }
+  .book-cover .cover-photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .book-title {
+    font-weight: 600;
+    font-size: .95rem;
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-family: "Noto Serif", Georgia, serif;
+  }
+  .book-meta { font-size: .8rem; color: var(--text-muted); }
+  .book-tags { display: flex; flex-wrap: wrap; gap: .25rem; margin-top: .2rem; }
+  .book-tag {
+    font-size: .72rem;
+    padding: .1rem .45rem;
+    border-radius: 999px;
+    background: var(--tag-bg);
+    color: var(--tag-text);
+    border: 1px solid rgba(201,162,74,0.35);
+  }
+  .no-results { text-align: center; padding: 3rem 1rem; color: var(--text-muted); grid-column: 1/-1; }
+
+  /* ===== FOOTER ===== */
+  .site-footer {
+    padding: .85rem 2rem;
+    font-size: .8rem;
+    color: var(--text-muted);
+    background: var(--footer-bg);
+    text-align: right;
+    border-top: 1px solid var(--gold-1);
+  }
+
+  /* ===== MODAL ===== */
+  .modal-backdrop {
+    display: none;
+    position: fixed; inset: 0;
+    background: var(--overlay);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+  .modal-backdrop.open { display: flex; }
+  .modal {
+    background: var(--card-bg);
+    border: 2px solid var(--gold-2);
+    border-radius: 12px;
+    max-width: 640px;
+    width: 100%;
+    max-height: 88vh;
+    overflow-y: auto;
+    box-shadow: var(--shadow-lg);
+    padding: 1.5rem;
+    position: relative;
+  }
+  .modal-close {
+    position: absolute;
+    top: .8rem; right: .8rem;
+    background: var(--tag-bg);
+    border: 1px solid var(--gold-1);
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    font-size: 1.1rem;
+    cursor: pointer;
+    color: var(--text);
+  }
+  .modal-header { display: flex; gap: 1.2rem; margin-bottom: 1rem; }
+  .modal-header .book-cover { width: 120px; flex-shrink: 0; font-size: 2.6rem; }
+  .modal-header-info { flex: 1; min-width: 0; }
+  .modal-header-info h2 { margin: 0 0 .4rem; font-size: 1.25rem; line-height: 1.3; font-family: "Noto Serif", Georgia, serif; }
+  .modal-header-info .book-meta { margin-bottom: .2rem; }
+  .modal-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .6rem 1rem;
+    margin: 1rem 0;
+    padding: 1rem;
+    background: var(--tag-bg);
+    border: 1px solid var(--gold-1);
+    border-radius: 8px;
+    font-size: .88rem;
+  }
+  .modal-fields div span.label { display: block; color: var(--text-muted); font-size: .75rem; text-transform: uppercase; letter-spacing: .02em; margin-bottom: .15rem; }
+  @media (max-width: 520px) {
+    .modal-header { flex-direction: column; }
+    .modal-header .book-cover { width: 90px; }
+    .modal-fields { grid-template-columns: 1fr; }
+  }
+
+  .highlight { background: #f5d97a; color: #000; border-radius: 2px; padding: 0 .1em; }
+  [data-theme="dark"] .highlight { background: #8a6a1e; color: #fff; }
+</style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-top">
+      <h1>
+        <button class="icon-btn menu-toggle" id="menuToggle" aria-label="Открыть меню разделов">☰</button>
+        <img class="emblem" src="emblem.png" alt="Герб библиотеки ВОСД" />
+        Каталог библиотеки ВОСД
+        <span class="book-count" id="totalCount"></span>
+      </h1>
+      <div class="header-actions">
+        <span class="live-clock" id="liveClock" title="Время, Рим">--:--:--</span>
+        <button class="icon-btn" id="themeToggle" aria-label="Переключить тему">🌙</button>
+      </div>
+    </div>
+    <div class="search-bar">
+      <input id="searchInput" type="text" placeholder="Поиск по названию, автору, разделу, тегам..." />
+    </div>
+    <div class="filters">
+      <select id="sectionFilter"><option value="">Все разделы</option></select>
+      <select id="yearFilter"><option value="">Все годы</option></select>
+      <select id="languageFilter"><option value="">Все языки</option></select>
+      <select id="typeFilter"><option value="">Все типы</option></select>
+      <button class="sort-btn" id="sortByAuthorBtn" data-sort="author_asc">По автору</button>
+      <button class="sort-btn" id="sortByPublisherBtn" data-sort="publisher_asc">По издательству</button>
+      <button class="sort-btn" id="sortByInventoryBtn" data-sort="inventory_desc">По инв. номеру</button>
+      <button class="clear-btn" id="clearFilters">Сбросить фильтры</button>
+    </div>
+    <div class="result-count" id="resultCount"></div>
+  </header>
+
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+  <main>
+    <aside class="sidebar" id="sidebar">
+      <button class="sidebar-close" id="sidebarClose">✕</button>
+      <h2>Разделы</h2>
+      <ul id="sectionList"></ul>
+      <h2>Теги</h2>
+      <ul id="tagList"></ul>
+    </aside>
+
+    <section>
+      <div class="catalog-toolbar">
+        <div class="sort-group">
+          <label for="sortSelect">Сортировка:</label>
+          <select id="sortSelect">
+            <option value="title_asc">Название (А-Я)</option>
+            <option value="title_desc">Название (Я-А)</option>
+            <option value="year_desc">Год (новые сначала)</option>
+            <option value="year_asc">Год (старые сначала)</option>
+            <option value="date_desc">Добавлено (сначала новые)</option>
+            <option value="date_asc">Добавлено (сначала старые)</option>
+            <option value="author_asc">Автор (А-Я)</option>
+            <option value="publisher_asc">Издательство (А-Я)</option>
+            <option value="inventory_desc" selected>Инв. номер (сначала новые)</option>
+            <option value="inventory_asc">Инв. номер (сначала старые)</option>
+          </select>
+        </div>
+        <div class="view-toggle-group">
+          <button id="gridViewBtn" class="active" title="Плитка">▦</button>
+          <button id="listViewBtn" title="Список">☰</button>
+        </div>
+      </div>
+      <div id="catalog" class="catalog-grid"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>Библиотека ВОСД · Милан</span>
+  </footer>
+
+  <div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal" id="modalContent"></div>
+  </div>
+
+<script>
+// ====================== ДАННЫЕ КАТАЛОГА ======================
+const catalog = __CATALOG_DATA__;
+
+// ====================== СОСТОЯНИЕ ======================
+let state = {
+  query: '',
+  section: '',
+  year: '',
+  language: '',
+  type: '',
+  sort: 'inventory_desc',
+  view: 'grid'
+};
+
+// ====================== ЭЛЕМЕНТЫ ======================
+const catalogEl = document.getElementById('catalog');
+const searchInput = document.getElementById('searchInput');
+const sectionFilter = document.getElementById('sectionFilter');
+const yearFilter = document.getElementById('yearFilter');
+const languageFilter = document.getElementById('languageFilter');
+const typeFilter = document.getElementById('typeFilter');
+const sortSelect = document.getElementById('sortSelect');
+const sortByAuthorBtn = document.getElementById('sortByAuthorBtn');
+const sortByPublisherBtn = document.getElementById('sortByPublisherBtn');
+const sortByInventoryBtn = document.getElementById('sortByInventoryBtn');
+const liveClock = document.getElementById('liveClock');
+const sectionList = document.getElementById('sectionList');
+const tagList = document.getElementById('tagList');
+const resultCount = document.getElementById('resultCount');
+const totalCount = document.getElementById('totalCount');
+const clearFiltersBtn = document.getElementById('clearFilters');
+const themeToggle = document.getElementById('themeToggle');
+const menuToggle = document.getElementById('menuToggle');
+const sidebar = document.getElementById('sidebar');
+const sidebarBackdrop = document.getElementById('sidebarBackdrop');
+const sidebarClose = document.getElementById('sidebarClose');
+const gridViewBtn = document.getElementById('gridViewBtn');
+const listViewBtn = document.getElementById('listViewBtn');
+const modalBackdrop = document.getElementById('modalBackdrop');
+const modalContent = document.getElementById('modalContent');
+
+totalCount.textContent = catalog.length + ' книг';
+
+// ====================== ОБЛОЖКИ ======================
+const COVER_PALETTE = [
+  '#5b5bd6', '#d65b8a', '#5bb0d6', '#d6a15b', '#5bd68a',
+  '#a15bd6', '#d65b5b', '#5bd6c4', '#8a5bd6', '#d6c45b'
+];
+function hashStr(str) {
+  let h = 0;
+  for (let i = 0; i < str.length; i++) {
+    h = (h << 5) - h + str.charCodeAt(i);
+    h |= 0;
+  }
+  return Math.abs(h);
+}
+function gradientFor(book) {
+  const idx = hashStr(book.title + book.section) % COVER_PALETTE.length;
+  const c1 = COVER_PALETTE[idx];
+  const c2 = COVER_PALETTE[(idx + 3) % COVER_PALETTE.length];
+  return `linear-gradient(135deg, ${c1}, ${c2})`;
+}
+function resolveCoverCandidates(book) {
+  if (book.cover && book.cover.trim()) return [book.cover.trim()];
+  const inv = book.inventory && book.inventory.trim();
+  if (!inv) return [];
+  const withUnderscore = inv.replace(/\s+/g, '_');
+  const withSpace = inv.replace(/_/g, ' ');
+  const bases = Array.from(new Set([
+    inv, withUnderscore, withSpace,
+    inv.toUpperCase(), withUnderscore.toUpperCase(), withSpace.toUpperCase(),
+    inv.toLowerCase(), withUnderscore.toLowerCase(), withSpace.toLowerCase(),
+  ]));
+  const exts = ['.jpg', '.jpeg', '.JPG'];
+  const candidates = [];
+  bases.forEach(base => {
+    exts.forEach(ext => {
+      candidates.push('covers/' + encodeURIComponent(base) + ext);
+    });
+  });
+  return candidates;
+}
+function handleCoverError(img) {
+  let fallbacks = [];
+  try { fallbacks = JSON.parse(img.dataset.fallbacks || '[]'); } catch (e) {}
+  if (fallbacks.length) {
+    const next = fallbacks.shift();
+    img.dataset.fallbacks = JSON.stringify(fallbacks);
+    img.src = next;
+  } else {
+    img.remove();
+  }
+}
+function renderCover(book) {
+  const letter = (book.title || '?').trim().charAt(0).toUpperCase();
+  const candidates = resolveCoverCandidates(book);
+  let imgTag = '';
+  if (candidates.length) {
+    const first = escapeAttr(candidates[0]);
+    const rest = escapeAttr(JSON.stringify(candidates.slice(1)));
+    imgTag = `<img class="cover-photo" src="${first}" data-fallbacks="${rest}" alt="" loading="lazy" onerror="handleCoverError(this)">`;
+  }
+  return `<div class="book-cover" style="background:${gradientFor(book)}">${escapeHtml(letter)}${imgTag}</div>`;
+}
+
+// ====================== УТИЛИТЫ ======================
+function escapeHtml(str) {
+  return String(str ?? '').replace(/[&<>"']/g, s => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[s]));
+}
+function escapeAttr(str) { return escapeHtml(str); }
+
+function highlight(text, query) {
+  if (!query) return escapeHtml(text);
+  const escaped = escapeHtml(text);
+  const q = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  try {
+    const re = new RegExp('(' + q + ')', 'ig');
+    return escaped.replace(re, '<span class="highlight">$1</span>');
+  } catch (e) {
+    return escaped;
+  }
+}
+
+// ====================== РЕНДЕР КАРТОЧЕК ======================
+function renderCatalog(items) {
+  catalogEl.innerHTML = '';
+  catalogEl.classList.toggle('list-view', state.view === 'list');
+
+  if (!items.length) {
+    catalogEl.innerHTML = '<p class="no-results">Ничего не найдено. Попробуйте изменить запрос или сбросить фильтры.</p>';
+    return;
+  }
+
+  const frag = document.createDocumentFragment();
+  items.forEach((book, idx) => {
+    const card = document.createElement('article');
+    card.className = 'book-card';
+    card.setAttribute('tabindex', '0');
+    card.setAttribute('role', 'button');
+    card.dataset.index = book.__idx;
+
+    card.innerHTML = `
+      ${renderCover(book)}
+      <div class="book-info">
+        <div class="book-title">${highlight(book.title, state.query)}</div>
+        <div class="book-meta">${highlight(book.author || 'Автор не указан', state.query)} · ${book.year || 'год не указан'}</div>
+        <div class="book-meta">Раздел: ${highlight(book.section, state.query)}</div>
+        <div class="book-meta">Экз.: ${book.copies} · Инв. № ${book.inventory || '—'}</div>
+        <div class="book-tags">
+          ${(book.tags || []).slice(0, 4).map(t => `<span class="book-tag">${escapeHtml(t)}</span>`).join('')}
+        </div>
+      </div>
+    `;
+    card.addEventListener('click', () => openModal(book));
+    card.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModal(book); }
+    });
+    frag.appendChild(card);
+  });
+  catalogEl.appendChild(frag);
+}
+
+// ====================== МОДАЛЬНОЕ ОКНО ======================
+function openModal(book) {
+  const cover = renderCover(book);
+  modalContent.innerHTML = `
+    <button class="modal-close" id="modalCloseBtn" aria-label="Закрыть">✕</button>
+    <div class="modal-header">
+      ${cover}
+      <div class="modal-header-info">
+        <h2>${escapeHtml(book.title)}</h2>
+        <div class="book-meta">${escapeHtml(book.author || 'Автор не указан')}</div>
+        <div class="book-meta">${escapeHtml(book.publisher || 'Издательство не указано')}${book.year ? ' · ' + book.year : ''}</div>
+      </div>
+    </div>
+    <div class="modal-fields">
+      <div><span class="label">Раздел</span>${escapeHtml(book.section)}</div>
+      <div><span class="label">Тип</span>${escapeHtml(book.type || '—')}</div>
+      <div><span class="label">Экземпляров</span>${escapeHtml(book.copies)}</div>
+      <div><span class="label">Инвентарный №</span>${escapeHtml(book.inventory || '—')}</div>
+      <div><span class="label">Добавлено</span>${escapeHtml(book.date_added || '—')}</div>
+      <div><span class="label">Язык</span>${escapeHtml(book.language || '—')}</div>
+    </div>
+    <div class="book-tags">
+      ${(book.tags || []).map(t => `<span class="book-tag">${escapeHtml(t)}</span>`).join('')}
+    </div>
+  `;
+  modalBackdrop.classList.add('open');
+  document.getElementById('modalCloseBtn').addEventListener('click', closeModal);
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  modalBackdrop.classList.remove('open');
+  document.body.style.overflow = '';
+}
+modalBackdrop.addEventListener('click', e => { if (e.target === modalBackdrop) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeModal(); closeSidebar(); } });
+
+// ====================== ФИЛЬТРЫ / СОРТИРОВКА / САЙДБАР ======================
+function buildFiltersAndSidebar() {
+  const sectionCounts = {};
+  const tagCounts = {};
+  catalog.forEach(b => {
+    sectionCounts[b.section] = (sectionCounts[b.section] || 0) + 1;
+    (b.tags || []).forEach(t => { tagCounts[t] = (tagCounts[t] || 0) + 1; });
+  });
+
+  const sections = Object.keys(sectionCounts).sort((a, b) => a.localeCompare(b, 'ru'));
+  const years = Array.from(new Set(catalog.map(b => b.year).filter(Boolean))).sort((a, b) => b - a);
+  const languages = Array.from(new Set(catalog.map(b => b.language).filter(Boolean))).sort();
+  const types = Array.from(new Set(catalog.map(b => b.type).filter(Boolean))).sort((a, b) => a.localeCompare(b, 'ru'));
+  const topTags = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]).slice(0, 40);
+
+  sections.forEach(s => {
+    const opt = document.createElement('option');
+    opt.value = s; opt.textContent = s;
+    sectionFilter.appendChild(opt);
+
+    const li = document.createElement('li');
+    li.innerHTML = `<span>${escapeHtml(s)}</span><span class="count">${sectionCounts[s]}</span>`;
+    li.dataset.section = s;
+    li.addEventListener('click', () => {
+      state.section = (state.section === s) ? '' : s;
+      sectionFilter.value = state.section;
+      syncSectionActive();
+      applyFilters();
+      closeSidebar();
+    });
+    sectionList.appendChild(li);
+  });
+
+  years.forEach(y => {
+    const opt = document.createElement('option');
+    opt.value = y; opt.textContent = y;
+    yearFilter.appendChild(opt);
+  });
+
+  languages.forEach(l => {
+    const opt = document.createElement('option');
+    opt.value = l; opt.textContent = l;
+    languageFilter.appendChild(opt);
+  });
+
+  types.forEach(t => {
+    const opt = document.createElement('option');
+    opt.value = t; opt.textContent = t;
+    typeFilter.appendChild(opt);
+  });
+
+  topTags.forEach(([t, count]) => {
+    const li = document.createElement('li');
+    li.innerHTML = `<span>${escapeHtml(t)}</span><span class="count">${count}</span>`;
+    li.addEventListener('click', () => {
+      searchInput.value = t;
+      state.query = t.toLowerCase();
+      applyFilters();
+      closeSidebar();
+    });
+    tagList.appendChild(li);
+  });
+}
+
+function syncSectionActive() {
+  Array.from(sectionList.children).forEach(li => {
+    li.classList.toggle('active', li.dataset.section === state.section);
+  });
+}
+
+function inventoryNum(inv) {
+  if (!inv) return -1;
+  const m = String(inv).match(/(\d+)\s*$/);
+  return m ? parseInt(m[1], 10) : -1;
+}
+
+function sortItems(items) {
+  const sorted = items.slice();
+  switch (state.sort) {
+    case 'title_asc': sorted.sort((a, b) => a.title.localeCompare(b.title, 'ru')); break;
+    case 'title_desc': sorted.sort((a, b) => b.title.localeCompare(a.title, 'ru')); break;
+    case 'year_desc': sorted.sort((a, b) => (b.year || 0) - (a.year || 0)); break;
+    case 'year_asc': sorted.sort((a, b) => (a.year || 9999) - (b.year || 9999)); break;
+    case 'date_desc': sorted.sort((a, b) => (b.date_added || '').localeCompare(a.date_added || '')); break;
+    case 'date_asc': sorted.sort((a, b) => (a.date_added || '').localeCompare(b.date_added || '')); break;
+    case 'author_asc': sorted.sort((a, b) => (a.author || '').localeCompare(b.author || '', 'ru')); break;
+    case 'publisher_asc': sorted.sort((a, b) => (a.publisher || '').localeCompare(b.publisher || '', 'ru')); break;
+    case 'inventory_desc': sorted.sort((a, b) => inventoryNum(b.inventory) - inventoryNum(a.inventory)); break;
+    case 'inventory_asc': sorted.sort((a, b) => inventoryNum(a.inventory) - inventoryNum(b.inventory)); break;
+  }
+  return sorted;
+}
+
+function applyFilters() {
+  const q = state.query.toLowerCase().trim();
+  const filtered = catalog.filter(b => {
+    const textMatch =
+      !q ||
+      (b.title && b.title.toLowerCase().includes(q)) ||
+      (b.author && b.author.toLowerCase().includes(q)) ||
+      (b.section && b.section.toLowerCase().includes(q)) ||
+      (b.publisher && b.publisher.toLowerCase().includes(q)) ||
+      ((b.tags || []).some(t => t.toLowerCase().includes(q)));
+
+    const sectionMatch = !state.section || b.section === state.section;
+    const yearMatch = !state.year || String(b.year) === state.year;
+    const langMatch = !state.language || b.language === state.language;
+    const typeMatch = !state.type || b.type === state.type;
+
+    return textMatch && sectionMatch && yearMatch && langMatch && typeMatch;
+  });
+
+  const sorted = sortItems(filtered);
+  resultCount.textContent = `Найдено: ${sorted.length} из ${catalog.length}`;
+  renderCatalog(sorted);
+}
+
+// ====================== СОБЫТИЯ ======================
+searchInput.addEventListener('input', () => { state.query = searchInput.value; applyFilters(); });
+sectionFilter.addEventListener('change', () => { state.section = sectionFilter.value; syncSectionActive(); applyFilters(); });
+yearFilter.addEventListener('change', () => { state.year = yearFilter.value; applyFilters(); });
+languageFilter.addEventListener('change', () => { state.language = languageFilter.value; applyFilters(); });
+typeFilter.addEventListener('change', () => { state.type = typeFilter.value; applyFilters(); });
+sortSelect.addEventListener('change', () => { state.sort = sortSelect.value; syncSortButtons(); applyFilters(); });
+
+const sortQuickButtons = [sortByAuthorBtn, sortByPublisherBtn, sortByInventoryBtn];
+function syncSortButtons() {
+  sortSelect.value = state.sort;
+  sortQuickButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.sort === state.sort));
+}
+sortQuickButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    state.sort = btn.dataset.sort;
+    syncSortButtons();
+    applyFilters();
+  });
+});
+syncSortButtons();
+
+clearFiltersBtn.addEventListener('click', () => {
+  state = { ...state, query: '', section: '', year: '', language: '', type: '' };
+  searchInput.value = ''; sectionFilter.value = ''; yearFilter.value = '';
+  languageFilter.value = ''; typeFilter.value = '';
+  syncSectionActive();
+  applyFilters();
+});
+
+// Часы (Рим, 24ч)
+function updateClock() {
+  try {
+    const timeStr = new Intl.DateTimeFormat('ru-RU', {
+      timeZone: 'Europe/Rome',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hourCycle: 'h23'
+    }).format(new Date());
+    liveClock.textContent = timeStr;
+  } catch (e) {
+    liveClock.textContent = new Date().toLocaleTimeString('ru-RU', { hour12: false });
+  }
+}
+updateClock();
+setInterval(updateClock, 1000);
+
+// Тема
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  themeToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
+  try { window.__theme = theme; } catch (e) {}
+}
+let currentTheme = 'light';
+const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+applyTheme(prefersDark ? 'dark' : 'light');
+currentTheme = prefersDark ? 'dark' : 'light';
+themeToggle.addEventListener('click', () => {
+  currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  applyTheme(currentTheme);
+});
+
+// Мобильное меню
+function openSidebar() { sidebar.classList.add('open'); sidebarBackdrop.classList.add('open'); }
+function closeSidebar() { sidebar.classList.remove('open'); sidebarBackdrop.classList.remove('open'); }
+menuToggle.addEventListener('click', openSidebar);
+sidebarClose.addEventListener('click', closeSidebar);
+sidebarBackdrop.addEventListener('click', closeSidebar);
+
+// Переключение вида
+gridViewBtn.addEventListener('click', () => { state.view = 'grid'; gridViewBtn.classList.add('active'); listViewBtn.classList.remove('active'); applyFilters(); });
+listViewBtn.addEventListener('click', () => { state.view = 'list'; listViewBtn.classList.add('active'); gridViewBtn.classList.remove('active'); applyFilters(); });
+
+// ====================== ИНИЦИАЛИЗАЦИЯ ======================
+catalog.forEach((b, i) => { b.__idx = i; });
+buildFiltersAndSidebar();
+applyFilters();
+</script>
+</body>
+</html>
