@@ -133,7 +133,7 @@ def main():
         log("   Проверьте: 1) есть ли интернет, 2) настроен ли remote origin, 3) есть ли права на push.")
         sys.exit(1)
     log("✓ git push выполнен успешно.")
-    log("✓ Сайт обновится через 1–2 минуты: https://aghorashmashanprabkhu-droid.github.io/biblioteka-vosd/")
+   log("✓ Сайт обновится через 1–2 минуты: https://vosd-library.github.io/biblioteka-SHPSA/")
     log("=" * 60)
 
 
