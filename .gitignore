@@ -1,2 +1,18 @@
 # Local Netlify folder
 .netlify
+# --- Диагностические и вспомогательные скрипты ---
+apply_new_numbers.py
+apply_fix.py
+compare_catalogs.py
+find_duplicates.py
+prepare_fix.py
+rename_covers.py
+
+# --- Бэкапы и отчёты ---
+Каталог_backup*.xlsx
+Каталог. Библиотека.xlsx
+comparison_report.xlsx
+duplicates*.xlsx
+
+# --- Служебные картинки ---
+https_biblioteka-shpsa_pages_dev*.png
